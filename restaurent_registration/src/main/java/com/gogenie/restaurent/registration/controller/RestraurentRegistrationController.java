@@ -10,9 +10,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.gogenie.customer.fullregistration.exception.CustomerRegistrationException;
-import com.gogenie.customer.fullregistration.model.RegistrationRequest;
-import com.gogenie.customer.fullregistration.model.RegistrationResponse;
 import com.gogenie.restaurent.registration.exception.RestaurentRegistrationException;
 import com.gogenie.restaurent.registration.model.RestaurentRegistrationRequest;
 import com.gogenie.restaurent.registration.service.RestaurentRegistraionService;
@@ -26,19 +23,22 @@ public class RestraurentRegistrationController {
 	@RequestMapping(value="/registration", method=RequestMethod.POST)
 	public String registerNewRestaurent (@RequestBody RestaurentRegistrationRequest request,
 			BindingResult result) throws RestaurentRegistrationException {
-		return null;
+		String response = service.registerRestaurent(request);
+		return response;
 	}
 	
 	@RequestMapping(value="/updateRestaurentDtl", method=RequestMethod.PUT)
 	public String updateRestaurentDetails (@RequestBody RestaurentRegistrationRequest request,
 			BindingResult result) throws RestaurentRegistrationException {
-		return null;
+		String response = service.updateRestaurentDetails(request);
+		return response;
 	}
 
 	@RequestMapping(value="/activate", method=RequestMethod.GET)
-	public String registerNewRestaurent (@RequestParam (value="restaurentName") String name, 
+	public String activateOrDeactivate (@RequestParam (value="restaurentName") String name, 
 			@RequestParam (value="active") String isActive) throws RestaurentRegistrationException {
-		return null;
+		String response = service.activateAndDeactivateARestaurent(null, name, isActive);
+		return response;
 	}
 
 	@ExceptionHandler(RestaurentRegistrationException.class)

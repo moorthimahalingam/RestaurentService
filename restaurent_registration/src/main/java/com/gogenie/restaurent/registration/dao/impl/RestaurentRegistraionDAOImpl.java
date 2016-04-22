@@ -10,20 +10,17 @@ import com.gogenie.restaurent.registration.model.RestaurentRegistrationRequest;
 public class RestaurentRegistraionDAOImpl implements RestaurentRegistraionDAO {
 
 	public String registerNewRestaurent(RestaurentRegistrationRequest request) throws RestaurentRegistrationException {
-		// TODO Auto-generated method stub
-		return null;
+		return "Restaurent has added successfully";
 	}
 
 	public String updateExistingRestaurentDetails(RestaurentRegistrationRequest request)
 			throws RestaurentRegistrationException {
-		// TODO Auto-generated method stub
-		return null;
+		return "Restraurent details have been updated successfully";
 	}
 
 	public String acivateOrDeactiveARestaurent(Integer restaurentId, String restaurentName, String isActiveFlag)
 			throws RestaurentRegistrationException {
-		// TODO Auto-generated method stub
-		return null;
+		return "Restrautent Deactive/Activate flag has been updated";
 	}
 
 }

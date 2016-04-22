@@ -11,7 +11,6 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /*@JsonInclude(JsonInclude.Include.NON_NULL)
-@Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({
 "accountid",
 "restaurentid",
@@ -31,6 +30,7 @@ public class RestaurentAccount implements Serializable {
 		 * 
 		 */
 	private static final long serialVersionUID = -4794278710386448639L;
+	
 	@JsonProperty("accountid")
 	private Integer accountid;
 	@JsonProperty("restaurentid")

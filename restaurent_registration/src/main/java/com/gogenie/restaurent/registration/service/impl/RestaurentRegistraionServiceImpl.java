@@ -18,20 +18,21 @@ public class RestaurentRegistraionServiceImpl implements RestaurentRegistraionSe
 	RestaurentRegistraionDAO restaurentRegistraionDAO;
 
 	public String registerRestaurent(RestaurentRegistrationRequest request) throws RestaurentRegistrationException {
-		// TODO Auto-generated method stub
-		return null;
+		String response = restaurentRegistraionDAO.registerNewRestaurent(request);
+		return response;
 	}
 
 	public String updateRestaurentDetails(RestaurentRegistrationRequest request)
 			throws RestaurentRegistrationException {
-		// TODO Auto-generated method stub
-		return null;
+		String response = restaurentRegistraionDAO.updateExistingRestaurentDetails(request);
+		return response;
 	}
 
 
 	public String activateAndDeactivateARestaurent(Integer restaurentId, String restaurentName, String isActiveFlag)
 			throws RestaurentRegistrationException {
-		// TODO Auto-generated method stub
-		return null;
+		String response = restaurentRegistraionDAO.acivateOrDeactiveARestaurent(restaurentId, restaurentName, isActiveFlag);
+		return response;
 	}
+	
 }
