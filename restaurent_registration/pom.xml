@@ -138,10 +138,5 @@
 			<artifactId>jackson-mapper-asl</artifactId>
 			<version>1.9.10</version>
 		</dependency>
-		<dependency>
-			<groupId>com.gogenie.customer.fullregistration</groupId>
-			<artifactId>fullregistration</artifactId>
-			<version>1.0-SNAPSHOT</version>
-		</dependency>
 	</dependencies>
 </project>
