@@ -19,26 +19,28 @@ public class EmployeeRegistrationController {
 
 	@Inject
 	EmployeeRegistrationService service;
-	
-	@RequestMapping(value="/employee_register", method=RequestMethod.POST)
-	public String registerNewEmployee(@RequestBody EmployeeRegistrationRequest request, 
-			BindingResult result) throws EmployeeRegistrationException {
-			String response = service.registerAnEmployee(request);
+
+	@RequestMapping(value = "/employee_register", method = RequestMethod.POST)
+	public String registerNewEmployee(@RequestBody EmployeeRegistrationRequest request, BindingResult result)
+			throws EmployeeRegistrationException {
+		String response = service.registerAnEmployee(request);
 		return response;
 	}
-	
-	@RequestMapping(value="/update_employeeDtl", method=RequestMethod.PUT)
-	public String updateEmployeeDetails(@RequestBody EmployeeRegistrationRequest request, BindingResult result) throws EmployeeRegistrationException {
+
+	@RequestMapping(value = "/update_employeeDtl", method = RequestMethod.PUT)
+	public String updateEmployeeDetails(@RequestBody EmployeeRegistrationRequest request, BindingResult result)
+			throws EmployeeRegistrationException {
 		String response = service.updateAnEmployeeDetails(request);
 		return response;
 	}
-	
-	@RequestMapping(value="DeactivateAnEmployee", method=RequestMethod.PUT)
-	public String deactivateAnEmployee(@RequestParam(value="employee_id") String empId) throws EmployeeRegistrationException {
+
+	@RequestMapping(value = "DeactivateAnEmployee", method = RequestMethod.PUT)
+	public String deactivateAnEmployee(@RequestParam(value = "employee_id") String empId)
+			throws EmployeeRegistrationException {
 		String response = service.terminateAnEmployee(empId);
 		return response;
 	}
-	
+
 	@ExceptionHandler(EmployeeRegistrationException.class)
 	public String exceptionHandler(EmployeeRegistrationException exception) {
 		return null;
