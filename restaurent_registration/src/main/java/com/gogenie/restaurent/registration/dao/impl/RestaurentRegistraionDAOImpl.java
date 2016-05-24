@@ -39,7 +39,7 @@ public class RestaurentRegistraionDAOImpl implements RestaurentRegistraionDAO {
 			RestaurentAccount account = request.getRestaurentAccount();
 			if (account != null) {
 				request.getRestaurentAccount().setRestaurentid(restaurantId);
-				insertRestaurant.withProcedureName("");
+				insertRestaurant.withProcedureName("post_restaurant_acct");
 				insertRestaurant.execute(restaurantAccountDetailsMap(account));
 			}
 		} catch (Exception e) {
