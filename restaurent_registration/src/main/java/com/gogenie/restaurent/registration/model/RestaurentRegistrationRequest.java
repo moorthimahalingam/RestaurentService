@@ -9,25 +9,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-/*@JsonInclude(JsonInclude.Include.NON_NULL)
-@JsonPropertyOrder({
-"restaurentid",
-"restaurentname",
-"businessphonenumber",
-"emailaddress",
-"addressline1",
-"addressline2",
-"city",
-"state",
-"zipcode",
-"countrycode",
-"isactive",
-"latitude",
-"longitude",
-"cusineid",
-"restaurentaccount"
-})
-*/
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class RestaurentRegistrationRequest implements Serializable {
 
@@ -66,6 +47,15 @@ public class RestaurentRegistrationRequest implements Serializable {
 	private Integer cusineid;
 	@JsonProperty("restaurentaccount")
 	private RestaurentAccount restaurentAccount;
+	@JsonProperty("landmark")
+	private String landmark;
+	
+	@JsonProperty("delivery_fee")
+	private Double deliveryFee;
+	
+	@JsonProperty("website")
+	private String website;
+	
 	@JsonIgnore
 	private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
@@ -335,25 +325,46 @@ public class RestaurentRegistrationRequest implements Serializable {
 		this.cusineid = cusineid;
 	}
 
-	/**
-	 * 
-	 * @return The restaurentaccount
-	 */
 	@JsonProperty("restaurentaccount")
-	public RestaurentAccount getRestaurentaccount() {
+	public RestaurentAccount getRestaurentAccount() {
 		return restaurentAccount;
 	}
 
-	/**
-	 * 
-	 * @param restaurentaccount
-	 *            The restaurentaccount
-	 */
 	@JsonProperty("restaurentaccount")
-	public void setRestaurentaccount(RestaurentAccount restaurentaccount) {
-		this.restaurentAccount = restaurentaccount;
+	public void setRestaurentAccount(RestaurentAccount restaurentAccount) {
+		this.restaurentAccount = restaurentAccount;
 	}
 
+	@JsonProperty("landmark")
+	public String getLandmark() {
+		return landmark;
+	}
+	
+	@JsonProperty("landmark")
+	public void setLandmark(String landmark) {
+		this.landmark = landmark;
+	}
+
+	@JsonProperty("delivery_fee")
+	public Double getDeliveryFee() {
+		return deliveryFee;
+	}
+
+	@JsonProperty("delivery_fee")
+	public void setDeliveryFee(Double deliveryFee) {
+		this.deliveryFee = deliveryFee;
+	}
+
+	@JsonProperty("website")
+	public String getWebsite() {
+		return website;
+	}
+
+	@JsonProperty("website")
+	public void setWebsite(String website) {
+		this.website = website;
+	}
+	
 	@JsonAnyGetter
 	public Map<String, Object> getAdditionalProperties() {
 		return this.additionalProperties;

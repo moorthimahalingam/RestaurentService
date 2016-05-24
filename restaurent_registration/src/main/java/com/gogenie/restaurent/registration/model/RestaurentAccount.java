@@ -10,18 +10,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-/*@JsonInclude(JsonInclude.Include.NON_NULL)
-@JsonPropertyOrder({
-"accountid",
-"restaurentid",
-"accounttype",
-"bankname",
-"routingnumber",
-"accountholdername",
-"settlementdate",
-"billingstatementdate",
-"billingenddate"
-})*/
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class RestaurentAccount implements Serializable {
@@ -41,6 +29,8 @@ public class RestaurentAccount implements Serializable {
 	private String bankname;
 	@JsonProperty("routingnumber")
 	private Integer routingnumber;
+	@JsonProperty("account_number")
+	private Integer accountNumber;
 	@JsonProperty("accountholdername")
 	private String accountholdername;
 	@JsonProperty("settlementdate")
@@ -223,6 +213,16 @@ public class RestaurentAccount implements Serializable {
 		this.billingenddate = billingenddate;
 	}
 
+	@JsonProperty("account_number")
+	public Integer getAccountNumber() {
+		return accountNumber;
+	}
+	@JsonProperty("account_number")
+	public void setAccountNumber(Integer accountNumber) {
+		this.accountNumber = accountNumber;
+	}
+
+	
 	@JsonAnyGetter
 	public Map<String, Object> getAdditionalProperties() {
 		return this.additionalProperties;
