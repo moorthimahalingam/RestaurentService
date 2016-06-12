@@ -32,7 +32,7 @@ public class EmployeeRegistrationDAOImpl implements EmployeeRegistrationDAO {
 	public String employeeRegistration(EmployeeRegistrationRequest request) throws EmployeeRegistrationException {
 
 		try {
-			String encryptedPassword = new EncryptionServiceImpl().encryptedValue(request.getPassword());
+			String encryptedPassword = new EncryptionServiceImpl().hashedValue(request.getPassword());
 			request.setEncryptedPassword(encryptedPassword);
 			SimpleJdbcCall employeeRegisterCall = new SimpleJdbcCall(datasource);
 			employeeRegisterCall.withProcedureName("post_restaurant_employee");
