@@ -56,6 +56,13 @@ public class RestaurentRegistrationRequest implements Serializable {
 	@JsonProperty("website")
 	private String website;
 	
+	@JsonProperty("rating")
+	private Integer rating;
+	
+	@JsonProperty("price_category")
+	private Integer priceCategory;
+	
+	
 	@JsonIgnore
 	private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
@@ -365,6 +372,52 @@ public class RestaurentRegistrationRequest implements Serializable {
 		this.website = website;
 	}
 	
+	@JsonProperty("rating")
+	public Integer getRating() {
+		return rating;
+	}
+
+	@JsonProperty("rating")
+	public void setRating(Integer rating) {
+		this.rating = rating;
+	}
+
+	@JsonProperty("price_category")
+	public Integer getPriceCategory() {
+		return priceCategory;
+	}
+
+	@JsonProperty("price_category")
+	public void setPriceCategory(Integer priceCategory) {
+		this.priceCategory = priceCategory;
+	}
+	
+	@JsonProperty("opening_time")
+	private String openingTime;
+	
+	@JsonProperty("closing_time")
+	private String closingTime;
+	
+	@JsonProperty("opening_time")
+	public String getOpeningTime() {
+		return openingTime;
+	}
+
+	@JsonProperty("opening_time")
+	public void setOpeningTime(String openingTime) {
+		this.openingTime = openingTime;
+	}
+
+	@JsonProperty("closing_time")
+	public String getClosingTime() {
+		return closingTime;
+	}
+
+	@JsonProperty("closing_time")
+	public void setClosingTime(String closingTime) {
+		this.closingTime = closingTime;
+	}
+
 	@JsonAnyGetter
 	public Map<String, Object> getAdditionalProperties() {
 		return this.additionalProperties;

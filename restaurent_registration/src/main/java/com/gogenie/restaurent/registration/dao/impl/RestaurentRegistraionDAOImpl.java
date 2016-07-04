@@ -1,5 +1,6 @@
 package com.gogenie.restaurent.registration.dao.impl;
 
+import java.sql.Types;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -8,7 +9,11 @@ import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import javax.sql.DataSource;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.SqlOutParameter;
+import org.springframework.jdbc.core.SqlParameter;
 import org.springframework.jdbc.core.simple.SimpleJdbcCall;
 import org.springframework.stereotype.Repository;
 
@@ -24,42 +29,93 @@ public class RestaurentRegistraionDAOImpl implements RestaurentRegistraionDAO {
 	private DataSource datasource;
 	private JdbcTemplate jdbcTemplate;
 
+	Logger logger = LoggerFactory.getLogger(RestaurentRegistraionDAOImpl.class);
+
 	@PostConstruct
 	private void setup() {
 		this.jdbcTemplate = new JdbcTemplate(datasource);
 	}
 
 	public String registerNewRestaurent(RestaurentRegistrationRequest request) throws RestaurentRegistrationException {
+		logger.debug("Entering into registerNewRestaurent () ");
 		try {
 
-			SimpleJdbcCall insertRestaurant = new SimpleJdbcCall(datasource);
-			insertRestaurant.withProcedureName("post_restaurant");
-			Map<String, Object> resultSet = insertRestaurant.execute(restaurantDataMap(request));
-			Integer restaurantId = (Integer)resultSet.get("restaurant_id");
+			SimpleJdbcCall simpleJdbcCall = new SimpleJdbcCall(datasource);
+			simpleJdbcCall.withProcedureName("post_restaurant").withoutProcedureColumnMetaDataAccess().declareParameters(
+					new SqlParameter("restaurantname", Types.VARCHAR),
+					new SqlParameter("businessphone", Types.VARCHAR),
+					new SqlParameter("emailid", Types.VARCHAR),
+					new SqlParameter("address1", Types.VARCHAR),
+					new SqlParameter("address2", Types.VARCHAR),
+					new SqlParameter("country_id", Types.BIGINT),
+					new SqlParameter("state_id", Types.BIGINT),
+					new SqlParameter("city_id", Types.BIGINT),
+					new SqlParameter("latitude", Types.FLOAT),
+					new SqlParameter("longitude", Types.FLOAT),
+					new SqlParameter("cusine_id", Types.BIGINT),
+					new SqlParameter("createddate", Types.DATE),
+					new SqlParameter("createdby", Types.BIGINT),
+					new SqlParameter("rating", Types.INTEGER),
+					new SqlParameter("pricing_category", Types.INTEGER),
+					new SqlParameter("zipcode", Types.VARCHAR),
+					new SqlParameter("landmark", Types.VARCHAR),
+					new SqlParameter("delivery_fee", Types.FLOAT),
+					new SqlParameter("restaurant_website", Types.VARCHAR),
+					new SqlParameter("restaurant_openingtime", Types.VARCHAR),
+					new SqlParameter("restaurant_closingtime", Types.VARCHAR),
+					new SqlOutParameter("returnRestaurantId", Types.BIGINT),
+					new SqlOutParameter("error_status", Types.VARCHAR));
+			logger.debug("Begin to register new restaurant {}" , request.getRestaurentname());
+			Map<String, Object> resultSet = simpleJdbcCall.execute(restaurantDataMap(request));
+			logger.debug("After successfully register the restaurant ");
+			logger.debug("Resultset details after register the database {}" , resultSet.toString());
+			Integer restaurantId = (Integer) resultSet.get("restaurant_id");
 			RestaurentAccount account = request.getRestaurentAccount();
+			logger.debug("Restaurant account details {} " , account);
 			if (account != null) {
+				logger.debug("Begin to register restaurant account details ");
+				
 				request.getRestaurentAccount().setRestaurentid(restaurantId);
-				insertRestaurant.withProcedureName("post_restaurant_acct");
-				insertRestaurant.execute(restaurantAccountDetailsMap(account));
+				simpleJdbcCall.withProcedureName("post_restaurant_acct").withoutProcedureColumnMetaDataAccess().declareParameters(
+						new SqlParameter("restaurant_id", Types.BIGINT),
+						new SqlParameter("bank_acct_type", Types.CHAR),
+						new SqlParameter("bank_name", Types.CHAR),
+						new SqlParameter("bank_routing_number", Types.VARCHAR),
+						new SqlParameter("bank_acct_number", Types.VARCHAR),
+						new SqlParameter("bank_acct_holder_nm", Types.VARCHAR),
+						new SqlParameter("settlmnt_date", Types.DATE),
+						new SqlParameter("billing_st_date", Types.DATE),
+						new SqlParameter("billing_end_date", Types.DATE),
+						new SqlParameter("createddate", Types.DATE),
+						new SqlParameter("createdby", Types.BIGINT),
+						new SqlOutParameter("error_status", Types.VARCHAR));
+						Map<String, Object> acctResultSet = simpleJdbcCall.execute(restaurantAccountDetailsMap(account));
+						logger.debug("Account inserted result set is {} " , acctResultSet.toString());
 			}
 		} catch (Exception e) {
 			throw new RestaurentRegistrationException(e, "registerNewRestaurent");
 		}
+		
+		logger.debug("Exiting from registerNewRestaurent () ");
 		return "Restaurent has added successfully";
 	}
 
 	public String updateExistingRestaurentDetails(RestaurentRegistrationRequest request)
 			throws RestaurentRegistrationException {
+		logger.debug("Entering into updateExistingRestaurentDetails () ");
+		logger.debug("Exiting from updateExistingRestaurentDetails () ");
 		return "Restraurent details have been updated successfully";
 	}
 
 	public String acivateOrDeactiveARestaurent(Integer restaurentId, String restaurentName, String isActiveFlag)
 			throws RestaurentRegistrationException {
+		logger.debug("Entering into registerNewRestaurent () ");
 		int noOfRowsUpdated = jdbcTemplate.update("update restaurant set RESTAURANT_ISACTIVE=? where RESTAURANT_ID=?",
 				new Object[] { isActiveFlag, restaurentId });
 		if (noOfRowsUpdated != 1) {
 			return "Failed to upadte Restrautent Deactive/Activate flag";
 		}
+		logger.debug("Exiting from acivateOrDeactiveARestaurent () ");
 		return "Restrautent Deactive/Activate flag has been updated";
 	}
 
@@ -69,27 +125,34 @@ public class RestaurentRegistraionDAOImpl implements RestaurentRegistraionDAO {
 	 * @return
 	 */
 	private Map<String, Object> restaurantDataMap(RestaurentRegistrationRequest request) {
+		logger.debug("Entering into restaurantDataMap () ");
 		Map<String, Object> restaurantDataMap = new HashMap<String, Object>();
 		restaurantDataMap.put("restaurantname", request.getRestaurentname());
 		restaurantDataMap.put("businessphone", request.getBusinessphonenumber());
 		restaurantDataMap.put("emailid", request.getEmailaddress());
 		restaurantDataMap.put("address1", request.getAddressline1());
 		restaurantDataMap.put("address2", request.getAddressline2());
-		restaurantDataMap.put("restaurant_isactive", request.getIsactive());
+//		restaurantDataMap.put("restaurant_isactive", request.getIsactive());
 		restaurantDataMap.put("country_id", request.getCountrycode());
 		restaurantDataMap.put("state_id", request.getState());
-		restaurantDataMap.put("rating", "1.5"); // @Todo - Rating
-		restaurantDataMap.put("pricing_category", 2);
+		restaurantDataMap.put("city_id", request.getCity());
+		restaurantDataMap.put("latitude", request.getLatitude());
+		restaurantDataMap.put("longitude", request.getLongitude());
+		restaurantDataMap.put("rating", request.getRating());
+		restaurantDataMap.put("createddate", new java.sql.Date(new Date().getTime()));
+		restaurantDataMap.put("createdby", 12321321);
+		restaurantDataMap.put("pricing_category", request.getPriceCategory());
 		restaurantDataMap.put("zipcode", request.getZipcode());
 		restaurantDataMap.put("landmark", request.getLandmark());
 		restaurantDataMap.put("delivery_fee", request.getDeliveryFee());
 		restaurantDataMap.put("restaurant_website", request.getWebsite());
-		restaurantDataMap.put("createddate", new Date());
-		restaurantDataMap.put("createdby", 12321321);
+		restaurantDataMap.put("restaurant_openingtime", request.getOpeningTime());
+		restaurantDataMap.put("restaurant_closingtime" , request.getClosingTime());
 		return restaurantDataMap;
 	}
-	
-	private Map<String, Object>  restaurantAccountDetailsMap (RestaurentAccount account) {
+
+	private Map<String, Object> restaurantAccountDetailsMap(RestaurentAccount account) {
+		logger.debug("Entering into restaurantAccountDetailsMap () ");
 		Map<String, Object> restaurantAcctMap = new HashMap<String, Object>();
 		restaurantAcctMap.put("restaurant_id", account.getRestaurentid());
 		restaurantAcctMap.put("bank_acct_type", account.getAccounttype());
@@ -97,11 +160,11 @@ public class RestaurentRegistraionDAOImpl implements RestaurentRegistraionDAO {
 		restaurantAcctMap.put("bank_routing_number", account.getRoutingnumber());
 		restaurantAcctMap.put("bank_acct_number", account.getAccountNumber());
 		restaurantAcctMap.put("bank_acct_holder_nm", account.getAccountholdername());
-		restaurantAcctMap.put("settlmnt_date", account.getSettlementdate());
-		restaurantAcctMap.put("billing_st_date", account.getBillingstatementdate());
-		restaurantAcctMap.put("billing_end_date", account.getBillingenddate());
-		restaurantAcctMap.put("createddate", new Date());
+		restaurantAcctMap.put("settlmnt_date", new java.sql.Date(account.getSettlementdate().getTime()));
+		restaurantAcctMap.put("billing_st_date", new java.sql.Date(account.getBillingstatementdate().getTime()));
+		restaurantAcctMap.put("billing_end_date", new java.sql.Date(account.getBillingenddate().getTime()));
+		restaurantAcctMap.put("createddate", new java.sql.Date(new Date().getTime()));
 		restaurantAcctMap.put("createdby", 12321321);
 		return restaurantAcctMap;
 	}
-} 
+}

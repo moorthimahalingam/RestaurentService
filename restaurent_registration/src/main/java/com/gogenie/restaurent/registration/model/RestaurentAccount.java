@@ -1,6 +1,7 @@
 package com.gogenie.restaurent.registration.model;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -34,11 +35,11 @@ public class RestaurentAccount implements Serializable {
 	@JsonProperty("accountholdername")
 	private String accountholdername;
 	@JsonProperty("settlementdate")
-	private String settlementdate;
+	private Date settlementdate;
 	@JsonProperty("billingstatementdate")
-	private String billingstatementdate;
+	private Date billingstatementdate;
 	@JsonProperty("billingenddate")
-	private String billingenddate;
+	private Date billingenddate;
 	@JsonIgnore
 	private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
@@ -161,7 +162,7 @@ public class RestaurentAccount implements Serializable {
 	 * @return The settlementdate
 	 */
 	@JsonProperty("settlementdate")
-	public String getSettlementdate() {
+	public Date getSettlementdate() {
 		return settlementdate;
 	}
 
@@ -171,7 +172,7 @@ public class RestaurentAccount implements Serializable {
 	 *            The settlementdate
 	 */
 	@JsonProperty("settlementdate")
-	public void setSettlementdate(String settlementdate) {
+	public void setSettlementdate(Date settlementdate) {
 		this.settlementdate = settlementdate;
 	}
 
@@ -180,7 +181,7 @@ public class RestaurentAccount implements Serializable {
 	 * @return The billingstatementdate
 	 */
 	@JsonProperty("billingstatementdate")
-	public String getBillingstatementdate() {
+	public Date getBillingstatementdate() {
 		return billingstatementdate;
 	}
 
@@ -190,7 +191,7 @@ public class RestaurentAccount implements Serializable {
 	 *            The billingstatementdate
 	 */
 	@JsonProperty("billingstatementdate")
-	public void setBillingstatementdate(String billingstatementdate) {
+	public void setBillingstatementdate(Date billingstatementdate) {
 		this.billingstatementdate = billingstatementdate;
 	}
 
@@ -199,7 +200,7 @@ public class RestaurentAccount implements Serializable {
 	 * @return The billingenddate
 	 */
 	@JsonProperty("billingenddate")
-	public String getBillingenddate() {
+	public Date getBillingenddate() {
 		return billingenddate;
 	}
 
@@ -209,7 +210,7 @@ public class RestaurentAccount implements Serializable {
 	 *            The billingenddate
 	 */
 	@JsonProperty("billingenddate")
-	public void setBillingenddate(String billingenddate) {
+	public void setBillingenddate(Date billingenddate) {
 		this.billingenddate = billingenddate;
 	}
 
