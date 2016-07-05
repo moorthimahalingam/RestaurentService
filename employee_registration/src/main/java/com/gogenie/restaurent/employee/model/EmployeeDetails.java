@@ -11,7 +11,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class EmployeeRegistrationRequest implements Serializable {
+public class EmployeeDetails implements Serializable {
 
 	/**
 	 * 
@@ -30,19 +30,12 @@ public class EmployeeRegistrationRequest implements Serializable {
 	private String personalEmailId;
 	@JsonProperty("username")
 	private String username;
-	@JsonProperty("password")
-	private String password;
-	@JsonProperty("joiningdate")
-	private String joiningdate;
-	@JsonProperty("relieveddate")
-	private String relieveddate;
 	@JsonProperty("accountmanagerflag")
 	private String accountmanagerflag;
-	@JsonProperty("restaurent_id")
-	private Integer restaurentId;
+	@JsonProperty("restaurant_id")
+	private Integer restaurantId;
 	@JsonProperty("employee_id")
 	private Integer employeeId;
-	
 
 	private String encryptedPassword;
 
@@ -163,89 +156,14 @@ public class EmployeeRegistrationRequest implements Serializable {
 		this.username = username;
 	}
 
-	/**
-	 * 
-	 * @return The password
-	 */
-	@JsonProperty("password")
-	public String getPassword() {
-		return password;
-	}
-
-	/**
-	 * 
-	 * @param password
-	 *            The password
-	 */
-	@JsonProperty("password")
-	public void setPassword(String password) {
-		this.password = password;
-	}
-
-	/**
-	 * 
-	 * @return The joiningdate
-	 */
-	@JsonProperty("joiningdate")
-	public String getJoiningdate() {
-		return joiningdate;
-	}
-
-	/**
-	 * 
-	 * @param joiningdate
-	 *            The joiningdate
-	 */
-	@JsonProperty("joiningdate")
-	public void setJoiningdate(String joiningdate) {
-		this.joiningdate = joiningdate;
-	}
-
-	/**
-	 * 
-	 * @return The relieveddate
-	 */
-	@JsonProperty("relieveddate")
-	public String getRelieveddate() {
-		return relieveddate;
-	}
-
-	/**
-	 * 
-	 * @param relieveddate
-	 *            The relieveddate
-	 */
-	@JsonProperty("relieveddate")
-	public void setRelieveddate(String relieveddate) {
-		this.relieveddate = relieveddate;
-	}
-
-	/**
-	 * 
-	 * @return The accountmanagerflag
-	 */
-	@JsonProperty("accountmanagerflag")
-	public String getAccountmanagerflag() {
-		return accountmanagerflag;
-	}
-
-	/**
-	 * 
-	 * @param accountmanagerflag
-	 *            The accountmanagerflag
-	 */
-	@JsonProperty("accountmanagerflag")
-	public void setAccountmanagerflag(String accountmanagerflag) {
-		this.accountmanagerflag = accountmanagerflag;
-	}
 
 	/**
 	 * 
 	 * @return The restaurentId
 	 */
-	@JsonProperty("restaurent_id")
-	public Integer getRestaurentId() {
-		return restaurentId;
+	@JsonProperty("restaurant_id")
+	public Integer getRestaurantId() {
+		return restaurantId;
 	}
 
 	/**
@@ -253,9 +171,9 @@ public class EmployeeRegistrationRequest implements Serializable {
 	 * @param restaurentId
 	 *            The restaurent_id
 	 */
-	@JsonProperty("restaurent_id")
-	public void setRestaurentId(Integer restaurentId) {
-		this.restaurentId = restaurentId;
+	@JsonProperty("restaurant_id")
+	public void setRestaurantId(Integer restaurantId) {
+		this.restaurantId = restaurantId;
 	}
 
 	/**
@@ -285,7 +203,19 @@ public class EmployeeRegistrationRequest implements Serializable {
 		this.encryptedPassword = encryptedPassword;
 	}
 	
+	@JsonProperty("status")
+	private String status;
+	
+	@JsonProperty("status")
+	public String getStatus() {
+		return status;
+	}
 
+	@JsonProperty("status")
+	public void setStatus(String status) {
+		this.status = status;
+	}
+	
 	@JsonAnyGetter
 	public Map<String, Object> getAdditionalProperties() {
 		return this.additionalProperties;

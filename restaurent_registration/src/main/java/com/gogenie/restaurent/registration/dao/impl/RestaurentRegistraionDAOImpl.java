@@ -26,14 +26,14 @@ import com.gogenie.restaurent.registration.model.RestaurentRegistrationRequest;
 public class RestaurentRegistraionDAOImpl implements RestaurentRegistraionDAO {
 
 	@Resource
-	private DataSource datasource;
+	private DataSource gogenieDataSource;
 	private JdbcTemplate jdbcTemplate;
 
 	Logger logger = LoggerFactory.getLogger(RestaurentRegistraionDAOImpl.class);
 
 	@PostConstruct
 	private void setup() {
-		this.jdbcTemplate = new JdbcTemplate(datasource);
+		this.jdbcTemplate = new JdbcTemplate(gogenieDataSource);
 	}
 
 	public String registerNewRestaurent(RestaurentRegistrationRequest request) throws RestaurentRegistrationException {
@@ -41,7 +41,7 @@ public class RestaurentRegistraionDAOImpl implements RestaurentRegistraionDAO {
 		SimpleJdbcCall simpleJdbcCall = null;
 		try {
 
-			simpleJdbcCall = new SimpleJdbcCall(datasource);
+			simpleJdbcCall = new SimpleJdbcCall(gogenieDataSource);
 			simpleJdbcCall.withProcedureName("post_restaurant").withoutProcedureColumnMetaDataAccess()
 					.declareParameters(new SqlParameter("restaurantname", Types.VARCHAR),
 							new SqlParameter("businessphone", Types.VARCHAR),
@@ -101,7 +101,7 @@ public class RestaurentRegistraionDAOImpl implements RestaurentRegistraionDAO {
 		logger.debug("Entering into updateExistingRestaurentDetails () ");
 		SimpleJdbcCall simpleJdbcCall = null;
 		try {
-			simpleJdbcCall = new SimpleJdbcCall(datasource);
+			simpleJdbcCall = new SimpleJdbcCall(gogenieDataSource);
 			simpleJdbcCall.withProcedureName("put_restaurant_details").withoutProcedureColumnMetaDataAccess()
 					.declareParameters(new SqlParameter("restaurant_id", Types.BIGINT),
 							new SqlParameter("restaurant_name", Types.VARCHAR),

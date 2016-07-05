@@ -2,6 +2,8 @@ package com.gogenie.restaurent.employee.controller;
 
 import javax.inject.Inject;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -11,33 +13,42 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.gogenie.restaurent.employee.exception.EmployeeRegistrationException;
+import com.gogenie.restaurent.employee.model.EmployeeDetails;
 import com.gogenie.restaurent.employee.model.EmployeeRegistrationRequest;
 import com.gogenie.restaurent.employee.service.EmployeeRegistrationService;
 
 @RestController
 public class EmployeeRegistrationController {
 
+	Logger logger = LoggerFactory.getLogger(EmployeeRegistrationController.class);
+	
 	@Inject
 	EmployeeRegistrationService service;
 
 	@RequestMapping(value = "/employee_register", method = RequestMethod.POST)
-	public String registerNewEmployee(@RequestBody EmployeeRegistrationRequest request, BindingResult result)
+	public EmployeeDetails registerNewEmployee(@RequestBody EmployeeRegistrationRequest request, BindingResult result)
 			throws EmployeeRegistrationException {
-		String response = service.registerAnEmployee(request);
-		return response;
+		logger.debug("Entering into registerNewEmployee()");
+		EmployeeDetails employeeDetails = service.registerAnEmployee(request);
+		logger.debug("Exiting from registerNewEmployee()");
+		return employeeDetails;
 	}
 
 	@RequestMapping(value = "/update_employeeDtl", method = RequestMethod.PUT)
-	public String updateEmployeeDetails(@RequestBody EmployeeRegistrationRequest request, BindingResult result)
+	public EmployeeDetails updateEmployeeDetails(@RequestBody EmployeeRegistrationRequest request, BindingResult result)
 			throws EmployeeRegistrationException {
-		String response = service.updateAnEmployeeDetails(request);
-		return response;
+		logger.debug("Entering into updateEmployeeDetails()");
+		EmployeeDetails employeeDetails = service.updateAnEmployeeDetails(request);
+		logger.debug("Exiting from updateEmployeeDetails()");
+		return employeeDetails;
 	}
 
 	@RequestMapping(value = "DeactivateAnEmployee", method = RequestMethod.PUT)
 	public String deactivateAnEmployee(@RequestParam(value = "employee_id") String empId)
 			throws EmployeeRegistrationException {
+		logger.debug("Entering into deactivateAnEmployee()");
 		String response = service.terminateAnEmployee(empId);
+		logger.debug("Exiting from deactivateAnEmployee()");
 		return response;
 	}
 
