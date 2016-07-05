@@ -18,7 +18,7 @@ public class RestaurentRegistrationRequest implements Serializable {
 	private static final long serialVersionUID = 3550230138773905889L;
 
 	@JsonProperty("restaurentid")
-	private Integer restaurentid;
+	private Long restaurentid;
 	@JsonProperty("restaurentname")
 	private String restaurentname;
 	@JsonProperty("businessphonenumber")
@@ -71,7 +71,7 @@ public class RestaurentRegistrationRequest implements Serializable {
 	 * @return The restaurentid
 	 */
 	@JsonProperty("restaurentid")
-	public Integer getRestaurentid() {
+	public Long getRestaurentid() {
 		return restaurentid;
 	}
 
@@ -81,7 +81,7 @@ public class RestaurentRegistrationRequest implements Serializable {
 	 *            The restaurentid
 	 */
 	@JsonProperty("restaurentid")
-	public void setRestaurentid(Integer restaurentid) {
+	public void setRestaurentid(Long restaurentid) {
 		this.restaurentid = restaurentid;
 	}
 

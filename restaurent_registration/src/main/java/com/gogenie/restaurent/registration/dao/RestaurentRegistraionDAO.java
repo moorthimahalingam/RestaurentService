@@ -9,5 +9,5 @@ public interface RestaurentRegistraionDAO {
 	
 	public String updateExistingRestaurentDetails(RestaurentRegistrationRequest request) throws RestaurentRegistrationException;
 	
-	public String acivateOrDeactiveARestaurent(Integer restaurentId, String restaurentName, String isActiveFlag) throws RestaurentRegistrationException;
+	public String acivateOrDeactiveARestaurent(Long restaurentId, String restaurentName, String isActiveFlag) throws RestaurentRegistrationException;
 }
