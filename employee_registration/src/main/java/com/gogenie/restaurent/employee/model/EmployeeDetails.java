@@ -216,6 +216,29 @@ public class EmployeeDetails implements Serializable {
 		this.status = status;
 	}
 	
+	@JsonProperty("employee_exist")
+	private boolean employeeExist;
+	
+	@JsonProperty("accountmanagerflag")
+	public String getAccountmanagerflag() {
+		return accountmanagerflag;
+	}
+
+	@JsonProperty("accountmanagerflag")
+	public void setAccountmanagerflag(String accountmanagerflag) {
+		this.accountmanagerflag = accountmanagerflag;
+	}
+
+	@JsonProperty("employee_exist")
+	public boolean getEmployeeExist() {
+		return employeeExist;
+	}
+
+	@JsonProperty("employee_exist")
+	public void setEmployeeExist(boolean employeeExist) {
+		this.employeeExist = employeeExist;
+	}
+
 	@JsonAnyGetter
 	public Map<String, Object> getAdditionalProperties() {
 		return this.additionalProperties;

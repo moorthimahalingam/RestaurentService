@@ -24,9 +24,13 @@ public class EmployeeRegistrationServiceImpl implements EmployeeRegistrationServ
 
 	public EmployeeDetails registerAnEmployee(EmployeeRegistrationRequest request) throws EmployeeRegistrationException {
 		logger.debug("Entering into registerAnEmployee() ");
-		EmployeeDetails response = employeeRegistrationDAO.employeeRegistration(request) ;
+		EmployeeDetails employeeDetails = employeeRegistrationDAO.existingEmployee(request.getEmployeeEmailId());
+		if (!(employeeDetails != null && employeeDetails.getName() != null)){
+			logger.debug("Employee doesn't exist . register as a new user" );
+			employeeDetails = employeeRegistrationDAO.employeeRegistration(request) ;
+		}
 		logger.debug("Exiting from registerAnEmployee() ");
-		return response;
+		return employeeDetails;
 	}
 
 	public EmployeeDetails updateAnEmployeeDetails(EmployeeRegistrationRequest request) throws EmployeeRegistrationException {

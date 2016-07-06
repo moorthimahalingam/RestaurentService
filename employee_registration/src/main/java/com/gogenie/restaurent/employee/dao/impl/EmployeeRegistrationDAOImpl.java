@@ -35,7 +35,7 @@ public class EmployeeRegistrationDAOImpl implements EmployeeRegistrationDAO {
 	@Resource
 	private DataSource gogenieDataSource;
 	private JdbcTemplate jdbcTemplate;
-	
+
 	private SimpleJdbcCall simpleJdbcCall;
 
 	@PostConstruct
@@ -43,37 +43,42 @@ public class EmployeeRegistrationDAOImpl implements EmployeeRegistrationDAO {
 		this.jdbcTemplate = new JdbcTemplate(gogenieDataSource);
 	}
 
-	public EmployeeDetails employeeRegistration(EmployeeRegistrationRequest request) throws EmployeeRegistrationException {
+	public EmployeeDetails employeeRegistration(EmployeeRegistrationRequest request)
+			throws EmployeeRegistrationException {
 		logger.debug("Entering into employeeRegistration() ");
 		EmployeeDetails response = null;
 		try {
 			String encryptedPassword = new EncryptionServiceImpl().hashedValue(request.getPassword());
 			request.setEncryptedPassword(encryptedPassword);
 			simpleJdbcCall = new SimpleJdbcCall(gogenieDataSource);
-			simpleJdbcCall.withProcedureName("post_restaurant_employee").withoutProcedureColumnMetaDataAccess().declareParameters(
-					new SqlParameter("restaurant_id", Types.BIGINT),
-					new SqlParameter("employee_name", Types.VARCHAR),
-					new SqlParameter("employee_mobilenumber", Types.VARCHAR),
-					new SqlParameter("employee_designation", Types.VARCHAR),
-					new SqlParameter("username", Types.VARCHAR),
-					new SqlParameter("password", Types.VARCHAR),
-					new SqlParameter("emailid", Types.VARCHAR),
-					new SqlParameter("is_accountmanager", Types.VARCHAR),
-					new SqlParameter("createddate", Types.DATE),
-					new SqlParameter("createdby", Types.INTEGER),
-					new SqlOutParameter("error_status", Types.VARCHAR));
-			
+			simpleJdbcCall.withProcedureName("post_restaurant_employee").withoutProcedureColumnMetaDataAccess()
+					.declareParameters(new SqlParameter("restaurant_id", Types.BIGINT),
+							new SqlParameter("employee_name", Types.VARCHAR),
+							new SqlParameter("employee_mobilenumber", Types.VARCHAR),
+							new SqlParameter("employee_designation", Types.VARCHAR),
+							new SqlParameter("username", Types.VARCHAR), new SqlParameter("password", Types.VARCHAR),
+							new SqlParameter("emailid", Types.VARCHAR),
+							new SqlParameter("is_accountmanager", Types.VARCHAR),
+							new SqlParameter("createddate", Types.DATE), new SqlParameter("createdby", Types.INTEGER),
+							new SqlOutParameter("error_status", Types.VARCHAR));
+
 			Map<String, Object> output = simpleJdbcCall.execute(employeeRegisterationData(request));
-			
+			if (!output.isEmpty()) {
+				logger.debug("Employee registration result set {} ", output.toString());
+				response = new EmployeeDetails();
+				response.setStatus((String) output.get("error_status"));
+
+			}
 		} catch (Exception e) {
 			throw new EmployeeRegistrationException(e, "employeeRegistration");
 		}
 		logger.debug("Exiting from employeeRegistration() ");
-		
+
 		return response;
 	}
 
-	public EmployeeDetails updateEmployeeDetails(EmployeeRegistrationRequest request) throws EmployeeRegistrationException {
+	public EmployeeDetails updateEmployeeDetails(EmployeeRegistrationRequest request)
+			throws EmployeeRegistrationException {
 		EmployeeDetails response = null;
 		logger.debug("Entering into updateEmployeeDetails() ");
 
@@ -82,8 +87,6 @@ public class EmployeeRegistrationDAOImpl implements EmployeeRegistrationDAO {
 		return response;
 	}
 
-	
-	
 	public String terminateAnEmployee(String email) throws EmployeeRegistrationException {
 		logger.debug("Entering into terminateAnEmployee() ");
 		jdbcTemplate.update("update restaurant_employee set employee_active='Y' where emailid=?",
@@ -114,37 +117,39 @@ public class EmployeeRegistrationDAOImpl implements EmployeeRegistrationDAO {
 		logger.debug("Entering into existingCustomer()");
 		EmployeeDetails employeeDetails = new EmployeeDetails();
 		String employeeName = null;
-		
+
 		try {
-			 employeeName = jdbcTemplate.query("select EMPLOYEE_NAME from restaurant_employee where emailid=?",
+			employeeName = jdbcTemplate.query("select EMPLOYEE_NAME from restaurant_employee where emailid=?",
 					new Object[] { emailId }, new ResultSetExtractor<String>() {
-				
-				public String extractData(ResultSet rs) throws SQLException, DataAccessException {
-					String employeeName = null;
-					while (rs.next()) {
-						employeeName = rs.getString("EMPLOYEE_NAME");
-					}
-					logger.debug("Employee name {} ", employeeName);
-					return employeeName;
-				}
-			});
+
+						public String extractData(ResultSet rs) throws SQLException, DataAccessException {
+							String employeeName = null;
+							while (rs.next()) {
+								employeeName = rs.getString("EMPLOYEE_NAME");
+							}
+							logger.debug("Employee name {} ", employeeName);
+							return employeeName;
+						}
+					});
 			if (employeeName != null) {
 				employeeDetails = new EmployeeDetails();
 				employeeDetails.setStatus("User is already exist");
+				employeeDetails.setEmployeeExist(true);
 				employeeDetails.setName(employeeName);
 			} else {
 				employeeDetails = new EmployeeDetails();
 				employeeDetails.setStatus("User doesn't exist");
+				employeeDetails.setEmployeeExist(false);
 				employeeDetails.setName(null);
-				
+
 			}
 		} catch (Exception e) {
 			throw new EmployeeRegistrationException(e, "111112");
 		}
-		
+
 		logger.debug("Exiting from existingCustomer()");
 		return employeeDetails;
-	
+
 	}
 
 }
