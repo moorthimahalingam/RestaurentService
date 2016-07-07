@@ -13,5 +13,7 @@ public interface EmployeeRegistrationDAO {
 	public EmployeeDetails existingEmployee(String emailId) throws EmployeeRegistrationException;
 	
 	public String terminateAnEmployee (String email) throws EmployeeRegistrationException;
+	
+	public String updateEmployeeCredential(Long employeeId, String password) throws EmployeeRegistrationException;
 
 }

@@ -12,4 +12,6 @@ public interface EmployeeRegistrationService {
 	
 	public String terminateAnEmployee(String empId) throws EmployeeRegistrationException;
 	
+	public String updateEmployeeCredential(Long emailId, String password) throws EmployeeRegistrationException;
+	
 }

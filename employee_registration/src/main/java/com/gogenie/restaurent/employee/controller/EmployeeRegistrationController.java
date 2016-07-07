@@ -43,6 +43,16 @@ public class EmployeeRegistrationController {
 		return employeeDetails;
 	}
 
+	@RequestMapping(value="/updatePassword", method=RequestMethod.PUT)
+	public String updateEmployeeCredential (@RequestParam (value="employee_id") Long employeeId, 
+			@RequestParam (value="password") String password) throws EmployeeRegistrationException {
+		logger.debug("Entering into updateEmployeeCredential()");
+		String response = service.updateEmployeeCredential(employeeId, password);
+		logger.debug("Exiting from updateEmployeeCredential()");
+		return response;
+	}
+	
+	
 	@RequestMapping(value = "DeactivateAnEmployee", method = RequestMethod.PUT)
 	public String deactivateAnEmployee(@RequestParam(value = "employee_id") String empId)
 			throws EmployeeRegistrationException {

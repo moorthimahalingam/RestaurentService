@@ -12,6 +12,9 @@ import com.gogenie.restaurent.employee.exception.EmployeeRegistrationException;
 import com.gogenie.restaurent.employee.model.EmployeeDetails;
 import com.gogenie.restaurent.employee.model.EmployeeRegistrationRequest;
 import com.gogenie.restaurent.employee.service.EmployeeRegistrationService;
+import com.gogenie.util.exceptiom.GoGenieUtilityServiceException;
+import com.gogenie.util.service.EncryptionService;
+import com.gogenie.util.service.impl.EncryptionServiceImpl;
 
 @Named
 @Service
@@ -45,6 +48,22 @@ public class EmployeeRegistrationServiceImpl implements EmployeeRegistrationServ
 		String response = employeeRegistrationDAO.terminateAnEmployee(empId);
 		logger.debug("Exiting from terminateAnEmployee() ");
 		return response;
+	}
+
+	public String updateEmployeeCredential(Long emailId, String password) throws EmployeeRegistrationException {
+		logger.debug("Entering into updateEmployeeCredential()");
+		EncryptionService service = new EncryptionServiceImpl();
+		String encyptedPassword;
+		String repsonse = null;
+		try {
+			encyptedPassword = service.hashedValue(password);
+			repsonse = employeeRegistrationDAO.updateEmployeeCredential(emailId, encyptedPassword);
+			logger.debug("Exiting from updateEmployeeCredential()");
+		} catch (GoGenieUtilityServiceException e) {
+			e.printStackTrace();
+			throw new EmployeeRegistrationException(e, "updateEmployeeCredential");
+		}
+		return repsonse;
 	}
 	
 }
