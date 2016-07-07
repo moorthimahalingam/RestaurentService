@@ -51,6 +51,7 @@ public class RestraurentRegistrationController {
 		return response;
 	}
 
+	
 	@ExceptionHandler(RestaurentRegistrationException.class)
 	public String exceptionHandler(RestaurentRegistrationException exception) {
 		return null;
