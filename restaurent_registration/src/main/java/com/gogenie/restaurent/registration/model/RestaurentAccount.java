@@ -9,10 +9,13 @@ import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 
 @JsonIgnoreProperties(ignoreUnknown = true)
+@JsonInclude(Include.NON_EMPTY)
 public class RestaurentAccount implements Serializable {
 
 	/**
@@ -22,23 +25,23 @@ public class RestaurentAccount implements Serializable {
 	
 	@JsonProperty("accountid")
 	private Integer accountid;
-	@JsonProperty("restaurentid")
-	private Integer restaurentid;
-	@JsonProperty("accounttype")
+	@JsonProperty("restaurant_id")
+	private Long restaurentid;
+	@JsonProperty("account_type")
 	private String accounttype;
-	@JsonProperty("bankname")
+	@JsonProperty("bank_name")
 	private String bankname;
-	@JsonProperty("routingnumber")
-	private Integer routingnumber;
+	@JsonProperty("routing_number")
+	private String routingnumber;
 	@JsonProperty("account_number")
-	private Integer accountNumber;
-	@JsonProperty("accountholdername")
+	private String accountNumber;
+	@JsonProperty("account_holder_name")
 	private String accountholdername;
-	@JsonProperty("settlementdate")
+	@JsonProperty("settlement_date")
 	private Date settlementdate;
-	@JsonProperty("billingstatementdate")
+	@JsonProperty("billing_statement_date")
 	private Date billingstatementdate;
-	@JsonProperty("billingenddate")
+	@JsonProperty("billing_end_date")
 	private Date billingenddate;
 	@JsonIgnore
 	private Map<String, Object> additionalProperties = new HashMap<String, Object>();
@@ -66,8 +69,8 @@ public class RestaurentAccount implements Serializable {
 	 * 
 	 * @return The restaurentid
 	 */
-	@JsonProperty("restaurentid")
-	public Integer getRestaurentid() {
+	@JsonProperty("restaurant_id")
+	public Long getRestaurentid() {
 		return restaurentid;
 	}
 
@@ -76,8 +79,8 @@ public class RestaurentAccount implements Serializable {
 	 * @param restaurentid
 	 *            The restaurentid
 	 */
-	@JsonProperty("restaurentid")
-	public void setRestaurentid(Integer restaurentid) {
+	@JsonProperty("restaurant_id")
+	public void setRestaurentid(Long restaurentid) {
 		this.restaurentid = restaurentid;
 	}
 
@@ -85,7 +88,7 @@ public class RestaurentAccount implements Serializable {
 	 * 
 	 * @return The accounttype
 	 */
-	@JsonProperty("accounttype")
+	@JsonProperty("account_type")
 	public String getAccounttype() {
 		return accounttype;
 	}
@@ -95,7 +98,7 @@ public class RestaurentAccount implements Serializable {
 	 * @param accounttype
 	 *            The accounttype
 	 */
-	@JsonProperty("accounttype")
+	@JsonProperty("account_type")
 	public void setAccounttype(String accounttype) {
 		this.accounttype = accounttype;
 	}
@@ -104,7 +107,7 @@ public class RestaurentAccount implements Serializable {
 	 * 
 	 * @return The bankname
 	 */
-	@JsonProperty("bankname")
+	@JsonProperty("bank_name")
 	public String getBankname() {
 		return bankname;
 	}
@@ -114,7 +117,7 @@ public class RestaurentAccount implements Serializable {
 	 * @param bankname
 	 *            The bankname
 	 */
-	@JsonProperty("bankname")
+	@JsonProperty("bank_name")
 	public void setBankname(String bankname) {
 		this.bankname = bankname;
 	}
@@ -123,8 +126,8 @@ public class RestaurentAccount implements Serializable {
 	 * 
 	 * @return The routingnumber
 	 */
-	@JsonProperty("routingnumber")
-	public Integer getRoutingnumber() {
+	@JsonProperty("routing_number")
+	public String getRoutingnumber() {
 		return routingnumber;
 	}
 
@@ -133,8 +136,8 @@ public class RestaurentAccount implements Serializable {
 	 * @param routingnumber
 	 *            The routingnumber
 	 */
-	@JsonProperty("routingnumber")
-	public void setRoutingnumber(Integer routingnumber) {
+	@JsonProperty("routing_number")
+	public void setRoutingnumber(String routingnumber) {
 		this.routingnumber = routingnumber;
 	}
 
@@ -142,7 +145,7 @@ public class RestaurentAccount implements Serializable {
 	 * 
 	 * @return The accountholdername
 	 */
-	@JsonProperty("accountholdername")
+	@JsonProperty("account_holder_name")
 	public String getAccountholdername() {
 		return accountholdername;
 	}
@@ -152,7 +155,7 @@ public class RestaurentAccount implements Serializable {
 	 * @param accountholdername
 	 *            The accountholdername
 	 */
-	@JsonProperty("accountholdername")
+	@JsonProperty("account_holder_name")
 	public void setAccountholdername(String accountholdername) {
 		this.accountholdername = accountholdername;
 	}
@@ -161,7 +164,7 @@ public class RestaurentAccount implements Serializable {
 	 * 
 	 * @return The settlementdate
 	 */
-	@JsonProperty("settlementdate")
+	@JsonProperty("settlement_date")
 	public Date getSettlementdate() {
 		return settlementdate;
 	}
@@ -171,7 +174,7 @@ public class RestaurentAccount implements Serializable {
 	 * @param settlementdate
 	 *            The settlementdate
 	 */
-	@JsonProperty("settlementdate")
+	@JsonProperty("settlement_date")
 	public void setSettlementdate(Date settlementdate) {
 		this.settlementdate = settlementdate;
 	}
@@ -180,7 +183,7 @@ public class RestaurentAccount implements Serializable {
 	 * 
 	 * @return The billingstatementdate
 	 */
-	@JsonProperty("billingstatementdate")
+	@JsonProperty("billing_statement_date")
 	public Date getBillingstatementdate() {
 		return billingstatementdate;
 	}
@@ -190,7 +193,7 @@ public class RestaurentAccount implements Serializable {
 	 * @param billingstatementdate
 	 *            The billingstatementdate
 	 */
-	@JsonProperty("billingstatementdate")
+	@JsonProperty("billing_statement_date")
 	public void setBillingstatementdate(Date billingstatementdate) {
 		this.billingstatementdate = billingstatementdate;
 	}
@@ -199,7 +202,7 @@ public class RestaurentAccount implements Serializable {
 	 * 
 	 * @return The billingenddate
 	 */
-	@JsonProperty("billingenddate")
+	@JsonProperty("billing_end_date")
 	public Date getBillingenddate() {
 		return billingenddate;
 	}
@@ -209,17 +212,17 @@ public class RestaurentAccount implements Serializable {
 	 * @param billingenddate
 	 *            The billingenddate
 	 */
-	@JsonProperty("billingenddate")
+	@JsonProperty("billing_end_date")
 	public void setBillingenddate(Date billingenddate) {
 		this.billingenddate = billingenddate;
 	}
 
 	@JsonProperty("account_number")
-	public Integer getAccountNumber() {
+	public String getAccountNumber() {
 		return accountNumber;
 	}
 	@JsonProperty("account_number")
-	public void setAccountNumber(Integer accountNumber) {
+	public void setAccountNumber(String accountNumber) {
 		this.accountNumber = accountNumber;
 	}
 

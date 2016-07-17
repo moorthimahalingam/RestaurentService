@@ -7,9 +7,12 @@ import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
+@JsonInclude(Include.NON_EMPTY)
 public class RestaurentRegistrationRequest implements Serializable {
 
 	/**
@@ -17,51 +20,51 @@ public class RestaurentRegistrationRequest implements Serializable {
 	 */
 	private static final long serialVersionUID = 3550230138773905889L;
 
-	@JsonProperty("restaurentid")
+	@JsonProperty("restaurant_id")
 	private Long restaurentid;
-	@JsonProperty("restaurentname")
+	@JsonProperty("restaurant_name")
 	private String restaurentname;
-	@JsonProperty("businessphonenumber")
+	@JsonProperty("business_phone_number")
 	private String businessphonenumber;
-	@JsonProperty("emailaddress")
+	@JsonProperty("email_id")
 	private String emailaddress;
-	@JsonProperty("addressline1")
+	@JsonProperty("address_line_1")
 	private String addressline1;
-	@JsonProperty("addressline2")
+	@JsonProperty("address_line_2")
 	private String addressline2;
 	@JsonProperty("city")
-	private String city;
+	private Integer city;
 	@JsonProperty("state")
-	private String state;
+	private Integer state;
 	@JsonProperty("zipcode")
 	private String zipcode;
 	@JsonProperty("countrycode")
-	private String countrycode;
-	@JsonProperty("isactive")
+	private Integer countrycode;
+	@JsonProperty("is_active")
 	private String isactive;
 	@JsonProperty("latitude")
 	private Double latitude;
 	@JsonProperty("longitude")
 	private Double longitude;
-	@JsonProperty("cusineid")
+	@JsonProperty("cuisine_id")
 	private Integer cusineid;
-	@JsonProperty("restaurentaccount")
+	@JsonProperty("restaurant_account")
 	private RestaurentAccount restaurentAccount;
 	@JsonProperty("landmark")
 	private String landmark;
-	
 	@JsonProperty("delivery_fee")
 	private Double deliveryFee;
-	
 	@JsonProperty("website")
 	private String website;
-	
 	@JsonProperty("rating")
 	private Integer rating;
-	
 	@JsonProperty("price_category")
 	private Integer priceCategory;
-	
+	@JsonProperty("min_order_for_delivery")
+	private Double minOrderForDelivery;
+	@JsonProperty("base_delivery_time")
+	private String baseDeliveryTime;
+
 	
 	@JsonIgnore
 	private Map<String, Object> additionalProperties = new HashMap<String, Object>();
@@ -70,7 +73,7 @@ public class RestaurentRegistrationRequest implements Serializable {
 	 * 
 	 * @return The restaurentid
 	 */
-	@JsonProperty("restaurentid")
+	@JsonProperty("restaurant_id")
 	public Long getRestaurentid() {
 		return restaurentid;
 	}
@@ -80,7 +83,7 @@ public class RestaurentRegistrationRequest implements Serializable {
 	 * @param restaurentid
 	 *            The restaurentid
 	 */
-	@JsonProperty("restaurentid")
+	@JsonProperty("restaurant_id")
 	public void setRestaurentid(Long restaurentid) {
 		this.restaurentid = restaurentid;
 	}
@@ -89,7 +92,7 @@ public class RestaurentRegistrationRequest implements Serializable {
 	 * 
 	 * @return The restaurentname
 	 */
-	@JsonProperty("restaurentname")
+	@JsonProperty("restaurant_name")
 	public String getRestaurentname() {
 		return restaurentname;
 	}
@@ -99,7 +102,7 @@ public class RestaurentRegistrationRequest implements Serializable {
 	 * @param restaurentname
 	 *            The restaurentname
 	 */
-	@JsonProperty("restaurentname")
+	@JsonProperty("restaurant_name")
 	public void setRestaurentname(String restaurentname) {
 		this.restaurentname = restaurentname;
 	}
@@ -108,7 +111,7 @@ public class RestaurentRegistrationRequest implements Serializable {
 	 * 
 	 * @return The businessphonenumber
 	 */
-	@JsonProperty("businessphonenumber")
+	@JsonProperty("business_phone_number")
 	public String getBusinessphonenumber() {
 		return businessphonenumber;
 	}
@@ -118,7 +121,7 @@ public class RestaurentRegistrationRequest implements Serializable {
 	 * @param businessphonenumber
 	 *            The businessphonenumber
 	 */
-	@JsonProperty("businessphonenumber")
+	@JsonProperty("business_phone_number")
 	public void setBusinessphonenumber(String businessphonenumber) {
 		this.businessphonenumber = businessphonenumber;
 	}
@@ -127,7 +130,7 @@ public class RestaurentRegistrationRequest implements Serializable {
 	 * 
 	 * @return The emailaddress
 	 */
-	@JsonProperty("emailaddress")
+	@JsonProperty("email_id")
 	public String getEmailaddress() {
 		return emailaddress;
 	}
@@ -137,7 +140,7 @@ public class RestaurentRegistrationRequest implements Serializable {
 	 * @param emailaddress
 	 *            The emailaddress
 	 */
-	@JsonProperty("emailaddress")
+	@JsonProperty("email_id")
 	public void setEmailaddress(String emailaddress) {
 		this.emailaddress = emailaddress;
 	}
@@ -146,7 +149,7 @@ public class RestaurentRegistrationRequest implements Serializable {
 	 * 
 	 * @return The addressline1
 	 */
-	@JsonProperty("addressline1")
+	@JsonProperty("address_line_1")
 	public String getAddressline1() {
 		return addressline1;
 	}
@@ -156,7 +159,7 @@ public class RestaurentRegistrationRequest implements Serializable {
 	 * @param addressline1
 	 *            The addressline1
 	 */
-	@JsonProperty("addressline1")
+	@JsonProperty("address_line_1")
 	public void setAddressline1(String addressline1) {
 		this.addressline1 = addressline1;
 	}
@@ -165,7 +168,7 @@ public class RestaurentRegistrationRequest implements Serializable {
 	 * 
 	 * @return The addressline2
 	 */
-	@JsonProperty("addressline2")
+	@JsonProperty("address_line_2")
 	public String getAddressline2() {
 		return addressline2;
 	}
@@ -175,7 +178,7 @@ public class RestaurentRegistrationRequest implements Serializable {
 	 * @param addressline2
 	 *            The addressline2
 	 */
-	@JsonProperty("addressline2")
+	@JsonProperty("address_line_2")
 	public void setAddressline2(String addressline2) {
 		this.addressline2 = addressline2;
 	}
@@ -185,7 +188,7 @@ public class RestaurentRegistrationRequest implements Serializable {
 	 * @return The city
 	 */
 	@JsonProperty("city")
-	public String getCity() {
+	public Integer getCity() {
 		return city;
 	}
 
@@ -195,7 +198,7 @@ public class RestaurentRegistrationRequest implements Serializable {
 	 *            The city
 	 */
 	@JsonProperty("city")
-	public void setCity(String city) {
+	public void setCity(Integer city) {
 		this.city = city;
 	}
 
@@ -204,7 +207,7 @@ public class RestaurentRegistrationRequest implements Serializable {
 	 * @return The state
 	 */
 	@JsonProperty("state")
-	public String getState() {
+	public Integer getState() {
 		return state;
 	}
 
@@ -214,7 +217,7 @@ public class RestaurentRegistrationRequest implements Serializable {
 	 *            The state
 	 */
 	@JsonProperty("state")
-	public void setState(String state) {
+	public void setState(Integer state) {
 		this.state = state;
 	}
 
@@ -242,7 +245,7 @@ public class RestaurentRegistrationRequest implements Serializable {
 	 * @return The countrycode
 	 */
 	@JsonProperty("countrycode")
-	public String getCountrycode() {
+	public Integer getCountrycode() {
 		return countrycode;
 	}
 
@@ -252,7 +255,7 @@ public class RestaurentRegistrationRequest implements Serializable {
 	 *            The countrycode
 	 */
 	@JsonProperty("countrycode")
-	public void setCountrycode(String countrycode) {
+	public void setCountrycode(Integer countrycode) {
 		this.countrycode = countrycode;
 	}
 
@@ -260,7 +263,7 @@ public class RestaurentRegistrationRequest implements Serializable {
 	 * 
 	 * @return The isactive
 	 */
-	@JsonProperty("isactive")
+	@JsonProperty("is_active")
 	public String getIsactive() {
 		return isactive;
 	}
@@ -270,7 +273,7 @@ public class RestaurentRegistrationRequest implements Serializable {
 	 * @param isactive
 	 *            The isactive
 	 */
-	@JsonProperty("isactive")
+	@JsonProperty("is_active")
 	public void setIsactive(String isactive) {
 		this.isactive = isactive;
 	}
@@ -317,7 +320,7 @@ public class RestaurentRegistrationRequest implements Serializable {
 	 * 
 	 * @return The cusineid
 	 */
-	@JsonProperty("cusineid")
+	@JsonProperty("cuisine_id")
 	public Integer getCusineid() {
 		return cusineid;
 	}
@@ -327,17 +330,17 @@ public class RestaurentRegistrationRequest implements Serializable {
 	 * @param cusineid
 	 *            The cusineid
 	 */
-	@JsonProperty("cusineid")
+	@JsonProperty("cuisine_id")
 	public void setCusineid(Integer cusineid) {
 		this.cusineid = cusineid;
 	}
 
-	@JsonProperty("restaurentaccount")
+	@JsonProperty("restaurant_account")
 	public RestaurentAccount getRestaurentAccount() {
 		return restaurentAccount;
 	}
 
-	@JsonProperty("restaurentaccount")
+	@JsonProperty("restaurant_account")
 	public void setRestaurentAccount(RestaurentAccount restaurentAccount) {
 		this.restaurentAccount = restaurentAccount;
 	}
@@ -416,6 +419,26 @@ public class RestaurentRegistrationRequest implements Serializable {
 	@JsonProperty("closing_time")
 	public void setClosingTime(String closingTime) {
 		this.closingTime = closingTime;
+	}
+
+	@JsonProperty("min_order_for_delivery")
+	public Double getMinOrderForDelivery() {
+		return minOrderForDelivery;
+	}
+
+	@JsonProperty("min_order_for_delivery")
+	public void setMinOrderForDelivery(Double minOrderForDelivery) {
+		this.minOrderForDelivery = minOrderForDelivery;
+	}
+
+	@JsonProperty("base_delivery_time")
+	public String getBaseDeliveryTime() {
+		return baseDeliveryTime;
+	}
+
+	@JsonProperty("base_delivery_time")
+	public void setBaseDeliveryTime(String baseDeliveryTime) {
+		this.baseDeliveryTime = baseDeliveryTime;
 	}
 
 	@JsonAnyGetter

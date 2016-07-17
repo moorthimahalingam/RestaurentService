@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.gogenie.restaurent.registration.dao.RestaurentRegistraionDAO;
 import com.gogenie.restaurent.registration.exception.RestaurentRegistrationException;
+import com.gogenie.restaurent.registration.model.RestaurantResponse;
 import com.gogenie.restaurent.registration.model.RestaurentRegistrationRequest;
 import com.gogenie.restaurent.registration.service.RestaurentRegistraionService;
 
@@ -21,26 +22,25 @@ public class RestaurentRegistraionServiceImpl implements RestaurentRegistraionSe
 	@Inject
 	RestaurentRegistraionDAO restaurentRegistraionDAO;
 
-	public String registerRestaurent(RestaurentRegistrationRequest request) throws RestaurentRegistrationException {
+	public RestaurantResponse registerRestaurent(RestaurentRegistrationRequest request) throws RestaurentRegistrationException {
 		logger.debug("Entering into registerRestaurent ()");
-		String response = restaurentRegistraionDAO.registerNewRestaurent(request);
+		RestaurantResponse response = restaurentRegistraionDAO.registerNewRestaurent(request);
 		logger.debug("Exiting from registerRestaurent ()");
 		return response;
 	}
 
-	public String updateRestaurentDetails(RestaurentRegistrationRequest request)
+	public RestaurantResponse updateRestaurentDetails(RestaurentRegistrationRequest request)
 			throws RestaurentRegistrationException {
 		logger.debug("Entering into updateRestaurentDetails ()");
-		String response = restaurentRegistraionDAO.updateExistingRestaurentDetails(request);
+		RestaurantResponse response = restaurentRegistraionDAO.updateExistingRestaurentDetails(request);
 		logger.debug("Exiting from updateRestaurentDetails ()");
 		return response;
 	}
 
-	public String activateAndDeactivateARestaurent(Long restaurentId, String restaurentName, String isActiveFlag)
+	public RestaurantResponse activateAndDeactivateARestaurent(RestaurentRegistrationRequest request)
 			throws RestaurentRegistrationException {
 		logger.debug("Entering into activateAndDeactivateARestaurent ()");
-		String response = restaurentRegistraionDAO.acivateOrDeactiveARestaurent(restaurentId, restaurentName,
-				isActiveFlag);
+		RestaurantResponse response = restaurentRegistraionDAO.acivateOrDeactiveARestaurent(request);
 		logger.debug("Exiting from activateAndDeactivateARestaurent ()");
 		return response;
 	}
