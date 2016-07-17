@@ -11,6 +11,7 @@ import com.gogenie.restaurent.employee.dao.EmployeeRegistrationDAO;
 import com.gogenie.restaurent.employee.exception.EmployeeRegistrationException;
 import com.gogenie.restaurent.employee.model.EmployeeDetails;
 import com.gogenie.restaurent.employee.model.EmployeeRegistrationRequest;
+import com.gogenie.restaurent.employee.model.EmployeeServicesResponse;
 import com.gogenie.restaurent.employee.service.EmployeeRegistrationService;
 import com.gogenie.util.exceptiom.GoGenieUtilityServiceException;
 import com.gogenie.util.service.EncryptionService;
@@ -43,26 +44,16 @@ public class EmployeeRegistrationServiceImpl implements EmployeeRegistrationServ
 		return response;
 	}
 
-	public String terminateAnEmployee(String empId) throws EmployeeRegistrationException {
+	public EmployeeServicesResponse terminateAnEmployee(EmployeeRegistrationRequest request) throws EmployeeRegistrationException {
 		logger.debug("Entering into terminateAnEmployee() ");
-		String response = employeeRegistrationDAO.terminateAnEmployee(empId);
+		EmployeeServicesResponse  response = employeeRegistrationDAO.terminateAnEmployee(request);
 		logger.debug("Exiting from terminateAnEmployee() ");
 		return response;
 	}
 
-	public String updateEmployeeCredential(Long emailId, String password) throws EmployeeRegistrationException {
+	public EmployeeServicesResponse updateEmployeeCredential(EmployeeRegistrationRequest request) throws EmployeeRegistrationException {
 		logger.debug("Entering into updateEmployeeCredential()");
-		EncryptionService service = new EncryptionServiceImpl();
-		String encyptedPassword;
-		String repsonse = null;
-		try {
-			encyptedPassword = service.hashedValue(password);
-			repsonse = employeeRegistrationDAO.updateEmployeeCredential(emailId, encyptedPassword);
-			logger.debug("Exiting from updateEmployeeCredential()");
-		} catch (GoGenieUtilityServiceException e) {
-			e.printStackTrace();
-			throw new EmployeeRegistrationException(e, "updateEmployeeCredential");
-		}
+		EmployeeServicesResponse repsonse = employeeRegistrationDAO.updateEmployeeCredential(request);
 		return repsonse;
 	}
 	

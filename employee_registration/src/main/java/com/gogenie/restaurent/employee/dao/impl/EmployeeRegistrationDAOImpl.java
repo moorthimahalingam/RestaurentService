@@ -25,6 +25,7 @@ import com.gogenie.restaurent.employee.dao.EmployeeRegistrationDAO;
 import com.gogenie.restaurent.employee.exception.EmployeeRegistrationException;
 import com.gogenie.restaurent.employee.model.EmployeeDetails;
 import com.gogenie.restaurent.employee.model.EmployeeRegistrationRequest;
+import com.gogenie.restaurent.employee.model.EmployeeServicesResponse;
 import com.gogenie.util.service.impl.EncryptionServiceImpl;
 
 @Repository
@@ -36,12 +37,17 @@ public class EmployeeRegistrationDAOImpl implements EmployeeRegistrationDAO {
 	private DataSource gogenieDataSource;
 	private JdbcTemplate jdbcTemplate;
 
-	private SimpleJdbcCall simpleJdbcCall;
+	private SimpleJdbcCall insertJdbcCall;
+	private SimpleJdbcCall updateJdbcCall;
+	private SimpleJdbcCall updateCredentialCall;
+	
 
 	@PostConstruct
 	private void setup() {
 		this.jdbcTemplate = new JdbcTemplate(gogenieDataSource);
-		this.simpleJdbcCall = new SimpleJdbcCall(gogenieDataSource);
+		this.insertJdbcCall = new SimpleJdbcCall(gogenieDataSource);
+		this.updateJdbcCall = new SimpleJdbcCall(gogenieDataSource);
+		this.updateCredentialCall = new SimpleJdbcCall(gogenieDataSource);
 	}
 
 	public EmployeeDetails employeeRegistration(EmployeeRegistrationRequest request)
@@ -51,7 +57,7 @@ public class EmployeeRegistrationDAOImpl implements EmployeeRegistrationDAO {
 		try {
 			String encryptedPassword = new EncryptionServiceImpl().hashedValue(request.getPassword());
 			request.setEncryptedPassword(encryptedPassword);
-			simpleJdbcCall.withProcedureName("post_restaurant_employee").withoutProcedureColumnMetaDataAccess()
+			insertJdbcCall.withProcedureName("post_restaurant_employee").withoutProcedureColumnMetaDataAccess()
 					.declareParameters(new SqlParameter("restaurant_id", Types.BIGINT),
 							new SqlParameter("employee_name", Types.VARCHAR),
 							new SqlParameter("employee_mobilenumber", Types.VARCHAR),
@@ -59,43 +65,54 @@ public class EmployeeRegistrationDAOImpl implements EmployeeRegistrationDAO {
 							new SqlParameter("username", Types.VARCHAR), new SqlParameter("password", Types.VARCHAR),
 							new SqlParameter("emailid", Types.VARCHAR),
 							new SqlParameter("is_accountmanager", Types.VARCHAR),
-							new SqlParameter("createddate", Types.DATE), new SqlParameter("createdby", Types.INTEGER),
+							new SqlParameter("createddate", Types.DATE), new SqlParameter("createdby", Types.VARCHAR),
 							new SqlOutParameter("error_status", Types.VARCHAR));
 
-			Map<String, Object> output = simpleJdbcCall.execute(employeeRegisterationData(request));
+			Map<String, Object> output = insertJdbcCall.execute(employeeRegisterationData(request));
 			if (!output.isEmpty()) {
 				logger.debug("Employee registration result set {} ", output.toString());
 				response = new EmployeeDetails();
-				response.setStatus((String) output.get("error_status"));
-
+				response.setStatus("Employee has been registered successfully");
 			}
 		} catch (Exception e) {
 			throw new EmployeeRegistrationException(e, "employeeRegistration");
-		} finally {
-			simpleJdbcCall = null;
+		}
+		logger.debug("Exiting from employeeRegistration() ");
+		return response;
+	}
+
+	public EmployeeDetails updateEmployeeDetails(EmployeeRegistrationRequest request)
+			throws EmployeeRegistrationException {
+		logger.debug("Entering into updateEmployeeDetails() ");
+		EmployeeDetails response = null;
+
+		try {
+			updateJdbcCall.withProcedureName("put_employee_details").withoutProcedureColumnMetaDataAccess()
+					.declareParameters();
+
+		} catch (Exception e) {
+			throw new EmployeeRegistrationException(e, "234324324");
 		}
 		logger.debug("Exiting from employeeRegistration() ");
 
 		return response;
 	}
 
-	public EmployeeDetails updateEmployeeDetails(EmployeeRegistrationRequest request)
+	public EmployeeServicesResponse terminateAnEmployee(EmployeeRegistrationRequest request)
 			throws EmployeeRegistrationException {
-		EmployeeDetails response = null;
-		logger.debug("Entering into updateEmployeeDetails() ");
-		simpleJdbcCall.withProcedureName("put_employee_details").withoutProcedureColumnMetaDataAccess().declareParameters(
-				);
-		logger.debug("Exiting from employeeRegistration() ");
-
-		return response;
-	}
-
-	public String terminateAnEmployee(String email) throws EmployeeRegistrationException {
 		logger.debug("Entering into terminateAnEmployee() ");
-		jdbcTemplate.update("update restaurant_employee set employee_active='Y' where emailid=?",
-				new Object[] { email });
+		EmployeeServicesResponse response = null;
+		try {
+			jdbcTemplate.update("update restaurant_employee set employee_active='N' where emp_id=?",
+					new Object[] { request.getEmployeeId() });
+			response = new EmployeeServicesResponse();
+			response.setEmployeeId(request.getEmployeeId());
+			response.setReponseText("Employee details have been deactiveted");
+		} catch (Exception e) {
+			throw new EmployeeRegistrationException(e, "243940324");
+		}
 		logger.debug("Exiting from terminateAnEmployee() ");
-		return "Employee details have been deactiveted";
+		return response;
 	}
 
 	private Map<String, Object> employeeRegisterationData(EmployeeRegistrationRequest request) {
@@ -110,8 +127,8 @@ public class EmployeeRegistrationDAOImpl implements EmployeeRegistrationDAO {
 		registerationMap.put("emailid", request.getPersonalEmailId());
 		registerationMap.put("is_accountmanager", request.getAccountmanagerflag());
 		registerationMap.put("createddate", new java.sql.Date(new Date().getTime()));
-		registerationMap.put("createdby", 12321312);
-		logger.debug("Exiting from employeeRegisterationData() ");
+		registerationMap.put("createdby", "gogenie");
+		logger.debug("Exiting from employeeRegisterationData()");
 		return registerationMap;
 	}
 
@@ -155,20 +172,29 @@ public class EmployeeRegistrationDAOImpl implements EmployeeRegistrationDAO {
 
 	}
 
-	public String updateEmployeeCredential(Long employeeId, String password) throws EmployeeRegistrationException {
+	public EmployeeServicesResponse updateEmployeeCredential(EmployeeRegistrationRequest request)
+			throws EmployeeRegistrationException {
 		logger.debug("Entering into updateEmployeeCredential()");
-		simpleJdbcCall = new SimpleJdbcCall(gogenieDataSource);
+		EmployeeServicesResponse response = null;
+		try {
+			updateCredentialCall.withProcedureName("put_restaurant_user_password").withoutProcedureColumnMetaDataAccess()
+					.declareParameters(new SqlParameter("restaurant_employee_id", Types.BIGINT),
+							new SqlParameter("updateddate", Types.DATE), new SqlParameter("updatedby", Types.BIGINT));
+			Map<String, Object> inputData = new HashMap<String, Object>();
+			inputData.put("restaurant_employee_id", request.getEmployeeId());
+			inputData.put("updateddate", new java.sql.Date(new Date().getTime()));
+			inputData.put("updatedby", 123123213);
 
-		simpleJdbcCall.withProcedureName("put_restaurant_user_password").withoutProcedureColumnMetaDataAccess()
-				.declareParameters(new SqlParameter("restaurant_employee_id" , Types.BIGINT),
-						new SqlParameter("updateddate", Types.DATE),
-						new SqlParameter("updatedby", Types.BIGINT));
-		Map<String, Object> inputData = new HashMap<String, Object>();
-		inputData.put("restaurant_employee_id", employeeId);
-		inputData.put("updateddate", new java.sql.Date(new Date().getTime()));
-		inputData.put("updatedby", 123123213);
+			response = new EmployeeServicesResponse();
+			response.setEmployeeId(request.getEmployeeId());
+			response.setReponseText("Employee details updated successfully");
+
+		} catch (Exception e) {
+			throw new EmployeeRegistrationException(e, "dskfjasklj");
+		}
 		logger.debug("Exiting from updateEmployeeCredential()");
-		return "updatedSuccessfully";
+
+		return response;
 	}
 
 }

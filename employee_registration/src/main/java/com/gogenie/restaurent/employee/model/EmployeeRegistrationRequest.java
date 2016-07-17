@@ -8,9 +8,12 @@ import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
+@JsonInclude(Include.NON_EMPTY)
 public class EmployeeRegistrationRequest implements Serializable {
 
 	/**
@@ -36,10 +39,10 @@ public class EmployeeRegistrationRequest implements Serializable {
 	private String joiningdate;
 	@JsonProperty("relieveddate")
 	private String relieveddate;
-	@JsonProperty("accountmanagerflag")
+	@JsonProperty("account_manager_flag")
 	private String accountmanagerflag;
-	@JsonProperty("restaurent_id")
-	private Integer restaurentId;
+	@JsonProperty("restaurant_id")
+	private Long restaurentId;
 	@JsonProperty("employee_id")
 	private Integer employeeId;
 	
@@ -224,7 +227,7 @@ public class EmployeeRegistrationRequest implements Serializable {
 	 * 
 	 * @return The accountmanagerflag
 	 */
-	@JsonProperty("accountmanagerflag")
+	@JsonProperty("account_manager_flag")
 	public String getAccountmanagerflag() {
 		return accountmanagerflag;
 	}
@@ -234,7 +237,7 @@ public class EmployeeRegistrationRequest implements Serializable {
 	 * @param accountmanagerflag
 	 *            The accountmanagerflag
 	 */
-	@JsonProperty("accountmanagerflag")
+	@JsonProperty("account_manager_flag")
 	public void setAccountmanagerflag(String accountmanagerflag) {
 		this.accountmanagerflag = accountmanagerflag;
 	}
@@ -243,8 +246,8 @@ public class EmployeeRegistrationRequest implements Serializable {
 	 * 
 	 * @return The restaurentId
 	 */
-	@JsonProperty("restaurent_id")
-	public Integer getRestaurentId() {
+	@JsonProperty("restaurant_id")
+	public Long getRestaurentId() {
 		return restaurentId;
 	}
 
@@ -253,8 +256,8 @@ public class EmployeeRegistrationRequest implements Serializable {
 	 * @param restaurentId
 	 *            The restaurent_id
 	 */
-	@JsonProperty("restaurent_id")
-	public void setRestaurentId(Integer restaurentId) {
+	@JsonProperty("restaurant_id")
+	public void setRestaurentId(Long restaurentId) {
 		this.restaurentId = restaurentId;
 	}
 

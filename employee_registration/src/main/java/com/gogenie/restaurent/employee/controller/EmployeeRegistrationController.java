@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.gogenie.restaurent.employee.exception.EmployeeRegistrationException;
 import com.gogenie.restaurent.employee.model.EmployeeDetails;
 import com.gogenie.restaurent.employee.model.EmployeeRegistrationRequest;
+import com.gogenie.restaurent.employee.model.EmployeeServicesResponse;
 import com.gogenie.restaurent.employee.service.EmployeeRegistrationService;
 
 @RestController
@@ -25,7 +26,7 @@ public class EmployeeRegistrationController {
 	@Inject
 	EmployeeRegistrationService service;
 
-	@RequestMapping(value = "/employee_register", method = RequestMethod.POST)
+	@RequestMapping(value = "/register", method = RequestMethod.POST)
 	public EmployeeDetails registerNewEmployee(@RequestBody EmployeeRegistrationRequest request, BindingResult result)
 			throws EmployeeRegistrationException {
 		logger.debug("Entering into registerNewEmployee()");
@@ -34,7 +35,7 @@ public class EmployeeRegistrationController {
 		return employeeDetails;
 	}
 
-	@RequestMapping(value = "/update_employeeDtl", method = RequestMethod.PUT)
+	@RequestMapping(value = "/update_detail", method = RequestMethod.PUT)
 	public EmployeeDetails updateEmployeeDetails(@RequestBody EmployeeRegistrationRequest request, BindingResult result)
 			throws EmployeeRegistrationException {
 		logger.debug("Entering into updateEmployeeDetails()");
@@ -43,21 +44,20 @@ public class EmployeeRegistrationController {
 		return employeeDetails;
 	}
 
-	@RequestMapping(value="/updatePassword", method=RequestMethod.PUT)
-	public String updateEmployeeCredential (@RequestParam (value="employee_id") Long employeeId, 
-			@RequestParam (value="password") String password) throws EmployeeRegistrationException {
+	@RequestMapping(value="/update_credential", method=RequestMethod.PUT)
+	public EmployeeServicesResponse updateEmployeeCredential (@RequestBody EmployeeRegistrationRequest request, BindingResult result) throws EmployeeRegistrationException {
 		logger.debug("Entering into updateEmployeeCredential()");
-		String response = service.updateEmployeeCredential(employeeId, password);
+		EmployeeServicesResponse response = service.updateEmployeeCredential(request);
 		logger.debug("Exiting from updateEmployeeCredential()");
 		return response;
 	}
 	
 	
-	@RequestMapping(value = "DeactivateAnEmployee", method = RequestMethod.PUT)
-	public String deactivateAnEmployee(@RequestParam(value = "employee_id") String empId)
+	@RequestMapping(value = "/deactivate_an_employee", method = RequestMethod.PUT)
+	public EmployeeServicesResponse deactivateAnEmployee(@RequestBody EmployeeRegistrationRequest request, BindingResult result)
 			throws EmployeeRegistrationException {
 		logger.debug("Entering into deactivateAnEmployee()");
-		String response = service.terminateAnEmployee(empId);
+		EmployeeServicesResponse response = service.terminateAnEmployee(request);
 		logger.debug("Exiting from deactivateAnEmployee()");
 		return response;
 	}
