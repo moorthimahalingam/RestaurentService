@@ -33,7 +33,7 @@ public class RestraurentRegistrationController {
 		return response;
 	}
 	
-	@RequestMapping(value="/updateRestaurentDtl", method=RequestMethod.PUT)
+	@RequestMapping(value="/updateRestaurantDtl", method=RequestMethod.PUT)
 	public RestaurantResponse updateRestaurentDetails (@RequestBody RestaurentRegistrationRequest request,
 			BindingResult result) throws RestaurentRegistrationException {
 		logger.debug("Entering into updateRestaurentDetails()");

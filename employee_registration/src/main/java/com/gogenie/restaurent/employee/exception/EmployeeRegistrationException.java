@@ -24,12 +24,28 @@ public class EmployeeRegistrationException extends Exception {
 		super(throwable);
 	}
 
-	public EmployeeRegistrationException(Exception e , String methodName) {
-		super(e);
+	public EmployeeRegistrationException(Exception e , String errorDtl) {
+		super(errorDtl,e);
 	}
 
-	public EmployeeRegistrationException(Throwable throwable, String methodName) {
-		super(throwable);
+	public EmployeeRegistrationException(Throwable throwable, String errorDtl) {
+		super(errorDtl, throwable);
 	}
 
+	private String errorCode;
+	private String errorDesc;
+
+	public EmployeeRegistrationException(Throwable throwable, String errorDtl, String errCode,
+			String errDec) {
+		super(errorDtl, throwable);
+		this.errorCode = errCode;
+		this.errorDesc = errDec;
+	}
+	
+	public EmployeeRegistrationException(Exception exception, String errorDtl, String errCode,
+			String errDec) {
+		super(errorDtl, exception);
+		this.errorCode = errCode;
+		this.errorDesc = errDec;
+	}
 }

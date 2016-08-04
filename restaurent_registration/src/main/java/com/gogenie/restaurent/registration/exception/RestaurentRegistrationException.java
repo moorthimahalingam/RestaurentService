@@ -24,11 +24,28 @@ public class RestaurentRegistrationException extends Exception {
 		super(throwable);
 	}
 
-	public RestaurentRegistrationException(Exception e , String methodName) {
-		super(e);
+	public RestaurentRegistrationException(Exception e , String errorDtl) {
+		super(errorDtl,e);
 	}
 
-	public RestaurentRegistrationException(Throwable throwable, String methodName) {
-		super(throwable);
+	public RestaurentRegistrationException(Throwable throwable, String errorDtl) {
+		super(errorDtl, throwable);
 	}
+	
+	private String errorCode;
+	private String errorDesc;
+	public RestaurentRegistrationException(Throwable throwable, String errorDtl, String errCode,
+			String errDec) {
+		super(errorDtl, throwable);
+		this.errorCode = errCode;
+		this.errorDesc = errDec;
+	}
+	
+	public RestaurentRegistrationException(Exception exception, String errorDtl, String errCode,
+			String errDec) {
+		super(errorDtl, exception);
+		this.errorCode = errCode;
+		this.errorDesc = errDec;
+	}
+	
 }
