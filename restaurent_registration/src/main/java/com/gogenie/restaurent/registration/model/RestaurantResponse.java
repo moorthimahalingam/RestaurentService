@@ -8,7 +8,7 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 @JsonIgnoreProperties(ignoreUnknown=true)
-@JsonInclude(Include.NON_EMPTY)
+//@JsonInclude(Include.NON_EMPTY)
 public class RestaurantResponse implements Serializable{
 
 	/**

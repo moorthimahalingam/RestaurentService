@@ -49,5 +49,16 @@
 	<url-pattern>/service/*</url-pattern>
 </servlet-mapping>
 
+<filter>
+    <filter-name>restaurantRegistrationCROSFilter</filter-name>
+    <filter-class>
+        com.gogenie.restaurent.registration.controller.RestaurantRegistrationCROSFilter
+    </filter-class>
+</filter>
+<filter-mapping>
+    <filter-name>restaurantRegistrationCROSFilter</filter-name>
+    <url-pattern>/service/*</url-pattern>
+</filter-mapping>
+
 </web-app>
 

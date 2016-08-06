@@ -48,6 +48,16 @@
 	<servlet-name>rest</servlet-name>
 	<url-pattern>/service/*</url-pattern>
 </servlet-mapping>
+<filter>
+    <filter-name>restaurantEmpRegCROSFilter</filter-name>
+    <filter-class>
+        com.gogenie.restaurent.employee.controller.RestaurantEmpRegCROSFilter
+    </filter-class>
+</filter>
+<filter-mapping>
+    <filter-name>restaurantEmpRegCROSFilter</filter-name>
+    <url-pattern>/service/*</url-pattern>
+</filter-mapping>
 
 </web-app>
 
