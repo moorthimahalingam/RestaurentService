@@ -63,11 +63,20 @@ public class RestaurentRegistraionDAOImpl implements RestaurentRegistraionDAO {
 //			Map<String, Object> resultSet = simpleJdbcCall.execute(restaurantDataMap(request));
 			RegisterRestaurantCall insertCall = new RegisterRestaurantCall(gogenieDataSource);
 			Map<String, Object> resultSet =  insertCall.restaurantDataMap(request);
+			
+			if (resultSet.get("estatus") != null) {
+				errorMessageHandler((String)resultSet.get("estatus"));
+			}
+			
 			logger.debug("After successfully register the restaurant ");
 			logger.debug("Resultset details after register the database {}", resultSet.toString());
-			List<Map> restaurantResult = (List) resultSet.get("#result-set-1");
-			logger.debug("Returned Restaurant insert result is {} ", restaurantResult.toString());
-			Long restaurantId = (Long) restaurantResult.get(0).get("returnRestaurantId");
+			
+//			List<Map> restaurantResult = (List) resultSet.get("#result-set-1");
+			 
+//			logger.debug("Returned Restaurant insert result is {} ", restaurantResult.toString());
+//			Long restaurantId = (Long) restaurantResult.get(0).get("returnRestaurantId");
+			Long restaurantId = (Long) resultSet.get("sstatus");
+			
 			logger.debug("Restaurant Id is {} ", restaurantId);
 			
 			RestaurentAccount account = request.getRestaurentAccount();
@@ -92,13 +101,22 @@ public class RestaurentRegistraionDAOImpl implements RestaurentRegistraionDAO {
 //				Map<String, Object> acctResultSet = simpleJdbcCall.execute(restaurantAccountDetailsMap(account));
 				RegisterRestaurantAcctCall insertAcct = new RegisterRestaurantAcctCall(gogenieDataSource);
 				Map<String, Object> acctResultSet = insertAcct.restaurantAccountDetailsMap(account);
+				
+				if (acctResultSet.get("estatus") != null) {
+					errorMessageHandler((String)acctResultSet.get("estatus"));
+				}
+				
 				logger.debug("Account inserted result set is {} ", acctResultSet.toString());
 			}
 			response = new RestaurantResponse();
 			response.setRestaurantId(restaurantId);
 			response.setRestaurantName(request.getRestaurentname());
 			response.setRepsonseText("Restaurent has added successfully");
-		} catch (Exception e) {
+			
+		} catch (RestaurentRegistrationException re) {
+			throw re;
+		}
+		catch (Exception e) {
 			throw new RestaurentRegistrationException(e, "registerNewRestaurent");
 		}
 		
@@ -169,5 +187,16 @@ public class RestaurentRegistraionDAOImpl implements RestaurentRegistraionDAO {
 		return response;
 	}
 
+	
+	/**
+	 * 
+	 * @param errorMessage
+	 * @return
+	 */
+	private void errorMessageHandler(String errorMessage) throws RestaurentRegistrationException {
+		String errorMsg[] = errorMessage.split(":");
+		RestaurentRegistrationException re = new RestaurentRegistrationException(errorMsg[0], errorMsg[1]);
+		throw re;
+	}
 	
 }

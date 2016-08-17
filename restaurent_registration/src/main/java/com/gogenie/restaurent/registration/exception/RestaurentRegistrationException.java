@@ -48,4 +48,10 @@ public class RestaurentRegistrationException extends Exception {
 		this.errorDesc = errDec;
 	}
 	
+	public RestaurentRegistrationException(String errorCode, String errorMessage) {
+		this.errorCode = errorCode;
+		this.errorDesc = errorMessage;
+	}
+
+	
 }

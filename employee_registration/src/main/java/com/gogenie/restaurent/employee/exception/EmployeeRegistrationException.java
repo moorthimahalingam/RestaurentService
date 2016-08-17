@@ -48,4 +48,9 @@ public class EmployeeRegistrationException extends Exception {
 		this.errorCode = errCode;
 		this.errorDesc = errDec;
 	}
+	
+	public EmployeeRegistrationException(String errCode, String errDesc) {
+		this.errorCode = errCode;
+		this.errorDesc = errDesc;
+	}
 }

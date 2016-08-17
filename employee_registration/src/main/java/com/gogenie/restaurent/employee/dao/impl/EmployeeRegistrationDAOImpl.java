@@ -66,14 +66,22 @@ public class EmployeeRegistrationDAOImpl implements EmployeeRegistrationDAO {
 							new SqlParameter("emailid", Types.VARCHAR),
 							new SqlParameter("is_accountmanager", Types.VARCHAR),
 							new SqlParameter("createddate", Types.DATE), new SqlParameter("createdby", Types.VARCHAR),
-							new SqlOutParameter("error_status", Types.VARCHAR));
+							new SqlOutParameter("estatus", Types.VARCHAR),
+							new SqlOutParameter("sstatus", Types.VARCHAR));
 
-			Map<String, Object> output = insertJdbcCall.execute(employeeRegisterationData(request));
-			if (!output.isEmpty()) {
-				logger.debug("Employee registration result set {} ", output.toString());
+			Map<String, Object> resultSet = insertJdbcCall.execute(employeeRegisterationData(request));
+			
+			if (resultSet != null) {
+				logger.debug("Employee registration result set {} ", resultSet.toString());
+				if (resultSet.get("estatus") != null) {
+					errorMessageHandler((String)resultSet.get("estatus"));
+				}
 				response = new EmployeeDetails();
+				response.setEmployeeEmailId((String)resultSet.get("sstatus"));
 				response.setStatus("Employee has been registered successfully");
 			}
+		} catch (EmployeeRegistrationException ere) {
+			throw ere;
 		} catch (Exception e) {
 			throw new EmployeeRegistrationException(e, "employeeRegistration");
 		}
@@ -195,6 +203,17 @@ public class EmployeeRegistrationDAOImpl implements EmployeeRegistrationDAO {
 		logger.debug("Exiting from updateEmployeeCredential()");
 
 		return response;
+	}
+	
+	/**
+	 * 
+	 * @param errorMessage
+	 * @return
+	 */
+	private void errorMessageHandler(String errorMessage) throws EmployeeRegistrationException {
+		String errorMsg[] = errorMessage.split(":");
+		EmployeeRegistrationException re = new EmployeeRegistrationException(errorMsg[0], errorMsg[1]);
+		throw re;
 	}
 
 }

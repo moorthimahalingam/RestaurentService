@@ -48,8 +48,9 @@ public class RegisterRestaurantCall extends StoredProcedure {
 		declareParameter(new SqlParameter("restaurant_closingtime", Types.TIME));
 		declareParameter(new SqlParameter("minimum_order_val_delivery", Types.FLOAT));
 		declareParameter(new SqlParameter("base_delivery_time", Types.TIME));
-		declareParameter(new SqlOutParameter("returnRestaurantId", Types.BIGINT));
-		declareParameter(new SqlOutParameter("error_status", Types.VARCHAR));
+//		declareParameter(new SqlOutParameter("returnRestaurantId", Types.BIGINT));
+		declareParameter(new SqlOutParameter("estatus", Types.VARCHAR));
+		declareParameter(new SqlOutParameter("sstatus", Types.VARCHAR));
 		compile();
 		
 	}

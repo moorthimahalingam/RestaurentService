@@ -32,7 +32,8 @@ public class RegisterRestaurantAcctCall extends StoredProcedure {
 		declareParameter(new SqlParameter("billing_end_date", Types.DATE));
 		declareParameter(new SqlParameter("createddate", Types.DATE));
 		declareParameter(new SqlParameter("createdby", Types.VARCHAR));
-		declareParameter(new SqlOutParameter("error_status", Types.VARCHAR));
+		declareParameter(new SqlOutParameter("estatus", Types.VARCHAR));
+		declareParameter(new SqlOutParameter("sstatus", Types.VARCHAR));
 		compile();
 	}
 	
